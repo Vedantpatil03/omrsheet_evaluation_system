@@ -3,7 +3,7 @@ import requests
 import json
 
 st.set_page_config(page_title="OMR Evaluation", layout="centered")
-st.title("Automated OMR Evaluation System")
+st.title("AUTOMATED OMR EVALUATION SYSTEM")
 
 BACKEND = "http://localhost:5000"
 
@@ -24,7 +24,7 @@ if not versions:
 
 with st.form("omr_form"):
     student_id = st.text_input("Student ID")
-    version = st.selectbox("Exam Version", versions if versions else ["--"])
+    version = st.selectbox("Paper Code", versions if versions else ["--"])
     uploaded_file = st.file_uploader(
         "Upload OMR Sheet Image",
         type=["jpg", "jpeg", "png", "bmp", "tiff"],
@@ -147,3 +147,5 @@ if submit:
                             st.info("Suggestions:")
                             for s in err.get("suggestions", []):
                                 st.write(f"- {s}")
+                                
+st.caption("OMR Evaluation System • Developed by Vedant Patil")
