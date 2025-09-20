@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+*.DS_Store
+
+# Virtual env
+.venv/
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Local data & runtime
+uploads/
+results.db
+instance/
+*.log
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Jupyter (if later added)
+.ipynb_checkpoints/
+
+# Images or large temp scans (place samples under docs/ instead)
+tmp/
