@@ -1,3 +1,4 @@
+from flask import Flask, request, jsonify, render_template  # Add render_template
 import os
 import traceback
 import cv2
@@ -109,7 +110,7 @@ def basic_image_validation(filepath):
 
 @app.route('/')
 def index():
-    return jsonify({'message': 'OMR Evaluation System API', 'status': 'running'})
+    return render_template('index.html')
 
 @app.route('/api/versions')
 def get_versions():
