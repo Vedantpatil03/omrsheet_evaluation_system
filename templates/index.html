@@ -5,117 +5,357 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OMR Evaluation System</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
             padding: 20px;
-            background-color: #f5f5f5;
         }
+        
         .container {
-            background: white;
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(20, 25, 35, 0.9);
+            border-radius: 16px;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        
         h1 {
-            color: #333;
-            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 30px;
+            color: #ffffff;
+            line-height: 1.2;
         }
+        
         .form-group {
             margin-bottom: 20px;
         }
+        
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
+            font-size: 14px;
+            font-weight: 600;
+            color: #b8c5d1;
+            margin-bottom: 8px;
         }
-        input, select {
+        
+        input[type="text"], select {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
+            padding: 12px 16px;
+            background: rgba(30, 35, 45, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
             font-size: 16px;
+            transition: all 0.3s ease;
         }
-        input:focus, select:focus {
-            border-color: #4CAF50;
+        
+        input[type="text"]:focus, select:focus {
             outline: none;
+            border-color: #4CAF50;
+            background: rgba(30, 35, 45, 1);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
         }
-        .upload-btn {
-            background: #4CAF50;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+        
+        select option {
+            background: #1e232d;
+            color: #ffffff;
+        }
+        
+        .file-upload {
+            position: relative;
             width: 100%;
-        }
-        .upload-btn:hover {
-            background: #45a049;
-        }
-        .upload-btn:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .loading {
+            padding: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(30, 35, 45, 0.5);
             text-align: center;
-            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .file-upload.dragover {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .upload-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #4CAF50;
+        }
+        
+        .upload-text {
+            color: #b8c5d1;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .upload-subtext {
+            color: #7a8699;
+            font-size: 12px;
+        }
+        
+        .file-info {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 6px;
+            color: #4CAF50;
+            font-size: 14px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .success {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+        
+        .success-header {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .student-info {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .score-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .total-score {
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .percentage {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .subjects-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0 15px 0;
+        }
+        
+        .subject-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .subject-score:last-child {
+            border-bottom: none;
+        }
+        
+        .subject-name {
+            font-weight: 500;
+        }
+        
+        .score-value {
+            font-weight: 600;
+        }
+        
+        .score-percentage {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-left: 10px;
+        }
+        
+        .error {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+        }
+        
+        .error h3 {
+            margin-bottom: 10px;
+        }
+        
+        .loading {
+            background: rgba(30, 35, 45, 0.9);
+            color: #b8c5d1;
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(76, 175, 80, 0.3);
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #7a8699;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>OMR Evaluation System</h1>
+        <h1>Automated OMR Evaluation System</h1>
         
         <form id="omrForm" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="student_id">Student ID:</label>
+                <label for="student_id">Student ID</label>
                 <input type="text" id="student_id" name="student_id" required 
                        placeholder="Enter student ID">
             </div>
             
             <div class="form-group">
-                <label for="version">Exam Version:</label>
+                <label for="version">Exam Version</label>
                 <select id="version" name="version" required>
                     <option value="">Select Version</option>
-                    <option value="A">Version A</option>
-                    <option value="B">Version B</option>
-                    <option value="C">Version C</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
                 </select>
             </div>
             
             <div class="form-group">
-                <label for="file">OMR Sheet Image:</label>
-                <input type="file" id="file" name="file" accept="image/*" required>
+                <label for="file">Upload OMR Sheet Image</label>
+                <div class="file-upload" id="fileUpload">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-text">Drag and drop file here</div>
+                    <div class="upload-subtext">Limit 200MB per file • JPG, JPEG, PNG, BMP, TIFF, TIF</div>
+                    <input type="file" id="file" name="file" accept="image/*" required>
+                </div>
+                <div class="file-info" id="fileInfo"></div>
             </div>
             
-            <button type="submit" class="upload-btn" id="submitBtn">
-                Evaluate OMR Sheet
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Evaluate Sheet
             </button>
         </form>
         
         <div id="result"></div>
+        
+        <div class="footer">
+            🟢 OMR Evaluation System • Developed by Vedant Patil
+        </div>
     </div>
 
     <script>
+        const fileUpload = document.getElementById('fileUpload');
+        const fileInput = document.getElementById('file');
+        const fileInfo = document.getElementById('fileInfo');
+        
+        // Drag and drop functionality
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('dragover');
+        });
+        
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('dragover');
+        });
+        
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                showFileInfo(files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                showFileInfo(e.target.files[0]);
+            }
+        });
+        
+        function showFileInfo(file) {
+            fileInfo.style.display = 'block';
+            fileInfo.innerHTML = `📁 ${file.name} • ${(file.size / (1024 * 1024)).toFixed(1)} MB`;
+        }
+        
         document.getElementById('omrForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -125,7 +365,12 @@
             // Show loading state
             submitBtn.disabled = true;
             submitBtn.textContent = 'Processing...';
-            resultDiv.innerHTML = '<div class="result loading">Processing your OMR sheet...</div>';
+            resultDiv.innerHTML = `
+                <div class="result loading">
+                    <div class="loading-spinner"></div>
+                    <div>OMR Sheet Successfully Evaluated!</div>
+                </div>
+            `;
             
             try {
                 const formData = new FormData(this);
@@ -138,32 +383,55 @@
                 const data = await response.json();
                 
                 if (response.ok) {
-                    // Success
+                    // Success - match the exact format from your image
+                    const percentage = ((data.total_score / data.max_possible_score) * 100).toFixed(1);
+                    
                     let html = `
                         <div class="result success">
-                            <h3>✅ Evaluation Complete!</h3>
-                            <p><strong>Student ID:</strong> ${data.student_id}</p>
-                            <p><strong>Version:</strong> ${data.version}</p>
-                            <p><strong>Total Score:</strong> ${data.total_score}/${data.max_possible_score}</p>
-                            <h4>Subject-wise Scores:</h4>
-                            <ul>
+                            <div class="success-header">
+                                <div class="student-info">Results for Student ID: ${data.student_id}</div>
+                                <div class="score-display">
+                                    <div>
+                                        <div style="font-size: 14px; opacity: 0.9;">Total Score</div>
+                                        <div class="total-score">${data.total_score}</div>
+                                        <div style="font-size: 12px; opacity: 0.8;">out of ${data.max_possible_score}</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 14px; opacity: 0.9;">Percentage</div>
+                                        <div class="percentage">${percentage}%</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px; font-size: 14px; opacity: 0.9;">Sheet Version: ${data.version}</div>
+                            </div>
+                            
+                            <div class="subjects-header">Subject-wise Scores</div>
                     `;
                     
+                    // Display subjects in the order they appear
                     for (const [subject, score] of Object.entries(data.scores)) {
-                        html += `<li><strong>${subject}:</strong> ${score}/20</li>`;
-                    }
-                    
-                    html += '</ul>';
-                    
-                    if (data.warnings && data.warnings.length > 0) {
-                        html += '<h4>⚠️ Warnings:</h4><ul>';
-                        data.warnings.forEach(warning => {
-                            html += `<li>${warning}</li>`;
-                        });
-                        html += '</ul>';
+                        const subjectPercentage = ((score / 20) * 100).toFixed(0);
+                        html += `
+                            <div class="subject-score">
+                                <div class="subject-name">${subject}</div>
+                                <div>
+                                    <span class="score-value">${score}/20</span>
+                                    <span class="score-percentage">${subjectPercentage}%</span>
+                                </div>
+                            </div>
+                        `;
                     }
                     
                     html += '</div>';
+                    
+                    if (data.warnings && data.warnings.length > 0) {
+                        html += '<div style="margin-top: 15px; padding: 10px; background: rgba(255, 193, 7, 0.2); border-radius: 6px; color: #ffc107;">';
+                        html += '<div style="font-weight: 600; margin-bottom: 5px;">⚠️ Warnings:</div>';
+                        data.warnings.forEach(warning => {
+                            html += `<div style="font-size: 14px;">• ${warning}</div>`;
+                        });
+                        html += '</div>';
+                    }
+                    
                     resultDiv.innerHTML = html;
                     
                 } else {
@@ -175,9 +443,9 @@
                     `;
                     
                     if (data.suggestions && data.suggestions.length > 0) {
-                        html += '<h4>💡 Suggestions:</h4><ul>';
+                        html += '<h4 style="margin-top: 15px;">💡 Suggestions:</h4><ul style="margin: 10px 0; padding-left: 20px;">';
                         data.suggestions.forEach(suggestion => {
-                            html += `<li>${suggestion}</li>`;
+                            html += `<li style="margin: 5px 0;">${suggestion}</li>`;
                         });
                         html += '</ul>';
                     }
@@ -197,7 +465,7 @@
             
             // Reset button
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Evaluate OMR Sheet';
+            submitBtn.textContent = 'Evaluate Sheet';
         });
     </script>
 </body>
