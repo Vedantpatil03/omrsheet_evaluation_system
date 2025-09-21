@@ -3,7 +3,9 @@ import requests
 import json
 
 st.set_page_config(page_title="OMR Evaluation", layout="centered")
-st.title("AUTOMATED OMR EVALUATION SYSTEM")
+st.title("Automated OMR Evaluation System")
+
+
 
 BACKEND = "http://localhost:5000"
 
@@ -24,7 +26,7 @@ if not versions:
 
 with st.form("omr_form"):
     student_id = st.text_input("Student ID")
-    version = st.selectbox("Paper Code", versions if versions else ["--"])
+    version = st.selectbox("Exam Version", versions if versions else ["--"])
     uploaded_file = st.file_uploader(
         "Upload OMR Sheet Image",
         type=["jpg", "jpeg", "png", "bmp", "tiff"],
@@ -37,6 +39,8 @@ if submit:
         st.error("All fields required.")
     else:
         files = {"file": (uploaded_file.name, uploaded_file.getvalue(), uploaded_file.type)}
+        
+        # Data sent to the backend remains simplified as per your previous request
         data = {
             "student_id": student_id,
             "version": version
@@ -57,7 +61,6 @@ if submit:
                     else:
                         st.success("OMR Sheet Successfully Evaluated!")
                         st.subheader(f"Results for Student ID: {result.get('student_id')}")
-
                         col1, col2 = st.columns(2)
                         with col1:
                             st.metric(
@@ -76,60 +79,31 @@ if submit:
                             for w in result["warnings"]:
                                 st.warning(w)
 
-                        # --- Subject-wise scores with CSS ---
                         st.subheader("Subject-wise Scores")
-
-                        # Inject CSS styling
-                        
-                        st.markdown("""
-                            <style>
-                            .subject-row {
-                                display: flex;
-                                justify-content: space-between;
-                                padding: 10px;
-                                margin-bottom: 8px;
-                                border-radius: 8px;
-                                background: #f9f9f9;
-                                border: 1px solid #ddd;
-                            }
-                            .subject-row:hover {
-                                background: #eef6ff;
-                                border-color: #3399ff;
-                            }
-                                    
-                            .subject-name {
-                                font-weight: bold;
-                                font-size: 16px;
-                                color: #333;
-                            }
-                            .subject-score {
-                                font-size: 15px;
-                                color: #555;
-                                    
-                            }
-                            </style>
-                        """, unsafe_allow_html=True)
-
                         scores = result.get("scores", {})
-
-                        for subject_name, details in scores.items():
-                            # ✅ Handle both dict (new format) and int (old format)
-                            if isinstance(details, dict):
-                                score = details.get("score", 0)
-                                max_q = details.get("max", 20)
-                                pct = details.get("percentage", (score / max_q) * 100 if max_q else 0)
-                            else:
-                                score = details
-                                max_q = 20
-                                pct = (score / max_q) * 100 if max_q else 0
-
-                            st.markdown(f"""
-                            <div class="subject-row">
-                                <div class="subject-name">{subject_name}</div>
-                                <div class="subject-score">{score} / {max_q}</div>
-                                <div class="subject-score">{pct:.1f}%</div>
-                            </div>
-                            """, unsafe_allow_html=True)
+                        
+                        # --- MODIFICATION STARTS HERE ---
+                        # Get the default subject questions per subject from the answer key.
+                        # Assuming all subjects in a given version have the same number of questions.
+                        # You can make this dynamic if subjects have different question counts.
+                        default_qps = 20 # This was hardcoded in your previous request
+                        
+                        # Fetch the actual answer key for the selected version to get correct question counts
+                        # This would require another API call or a modification to the /api/versions endpoint
+                        # For now, let's keep it simple and assume 20 questions per subject based on your ANSWER_KEYS structure.
+                        
+                        # Iterate through the scores dictionary directly.
+                        # The keys of 'scores' already contain the correct subject names from your Flask backend.
+                        for subject_name, score in scores.items():
+                            percent = (score / default_qps) * 100 if default_qps else 0
+                            c1, c2, c3 = st.columns([3, 1, 1])
+                            with c1:
+                                st.write(f"{subject_name}") # Use subject_name directly
+                            with c2:
+                                st.write(f"{score}/{default_qps}")
+                            with c3:
+                                st.write(f"{percent:.1f}%")
+                        # --- MODIFICATION ENDS HERE ---
 
                         with st.expander("Raw Result Data"):
                             st.json(result)
@@ -147,5 +121,3 @@ if submit:
                             st.info("Suggestions:")
                             for s in err.get("suggestions", []):
                                 st.write(f"- {s}")
-                                
-st.caption("OMR Evaluation System • Developed by Vedant Patil")

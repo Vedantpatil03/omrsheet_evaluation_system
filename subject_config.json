@@ -1,0 +1,9 @@
+{
+  "subjects": [
+    {"name": "Python", "questions": 20},
+    {"name": "Data Analysis", "questions": 20},
+    {"name": "MySQL", "questions": 20},
+    {"name": "PowerBI", "questions": 20},
+    {"name": "Adv Stats", "questions": 20}
+  ]
+}
