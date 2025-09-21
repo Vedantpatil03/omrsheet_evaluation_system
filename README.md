@@ -1,67 +1,162 @@
-**Automated OMR Evaluation System**
-Project Overview
+# 🎯 OMR Evaluation System
 
+An **Automated Optical Mark Recognition (OMR) Evaluation System** built with Flask backend and Streamlit frontend. This system can automatically evaluate OMR answer sheets and provide detailed subject-wise scoring.
 
-This is a full-stack web application designed to automate the process of evaluating OMR (Optical Mark Recognition) sheets. The system uses computer vision to accurately read student responses from a scanned OMR sheet image, providing instant, detailed score reports. This project aims to streamline the grading process, reduce manual effort, and minimize errors in evaluation.
+![OMR System Demo](https://img.shields.io/badge/Status-Active-green) ![Python](https://img.shields.io/badge/Python-3.8+-blue) ![Flask](https://img.shields.io/badge/Flask-2.0+-red) ![Streamlit](https://img.shields.io/badge/Streamlit-1.0+-orange)
 
-**Features**
+## ✨ Features
 
-Automated Grading: Instantly evaluates OMR sheets by analyzing uploaded images.
+- 🔍 **Automated OMR Detection** - Uses OpenCV for bubble detection and evaluation
+- 📊 **Subject-wise Scoring** - Breaks down scores by individual subjects
+- 🎨 **Modern Web Interface** - Beautiful, responsive Streamlit frontend
+- 📱 **Multi-version Support** - Handles different exam versions (A, B, C)
+- 💾 **Database Storage** - SQLite database for result persistence
+- 🚀 **Real-time Processing** - Instant evaluation and results
+- 📈 **Performance Analytics** - Visual score breakdown and percentages
 
-Accurate Scoring: Uses computer vision algorithms to ensure precise detection of marked answers.
+## 🛠️ Tech Stack
 
-Detailed Score Reports: Provides a summary of the total score, percentage, and a subject-wise breakdown of marks.
+- **Backend**: Flask (Python)
+- **Frontend**: Streamlit
+- **Image Processing**: OpenCV, NumPy
+- **Database**: SQLite
+- **Deployment**: Ready for Heroku/Docker
 
-Intuitive User Interface: A clean and easy-to-use front end built with Streamlit.
+## 📋 Prerequisites
 
-Scalable Architecture: A decoupled backend and frontend, making it easy to manage and extend.
+- Python 3.8 or higher
+- pip package manager
+- Virtual environment (recommended)
 
+## 🚀 Quick Start
 
-**Tech Stack**
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Vedantpatil03/omrsheet_evaluation_system.git
+cd omrsheet_evaluation_system
+```
 
-Backend: Python, Flask
+### 2. Set Up Virtual Environment
+```bash
+# Create virtual environment
+python -m venv .venv
 
-Frontend: Streamlit
+# Activate virtual environment
+# On Windows:
+.venv\Scripts\activate
+# On macOS/Linux:
+source .venv/bin/activate
+```
 
-Computer Vision: OpenCV
-
-Dependency Management: pip
-
-Deployment: Docker (recommended for production)
-
-**Quick Start Guide**
-
-Follow these steps to set up and run the project locally.
-
-**Prerequisites**
-
-Python 3.8 or higher
-
-**pip package manager**
-
-1. Clone the repository
-2. git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-
-cd your-repo-name
-
-3. Set up the backend
-4. Navigate to the backend directory and install the required Python packages.
-
-cd backend
-
+### 3. Install Dependencies
+```bash
 pip install -r requirements.txt
+```
 
-flask run
+### 4. Run the Application
 
-3. Set up the frontend
-4. Open a new terminal, navigate to the frontend directory, and install the required Python packages.
+**Option A: Use the startup script (Windows)**
+```bash
+start.bat
+```
 
-cd ..
-cd frontend
+**Option B: Manual startup**
+```bash
+# Terminal 1: Start Flask Backend
+python app.py
 
-pip install -r requirements.txt
-
+# Terminal 2: Start Streamlit Frontend
 streamlit run streamlit_app.py
+```
+
+### 5. Access the Application
+- **Streamlit UI**: http://localhost:8501
+- **Flask API**: http://localhost:5000
+
+## 📁 Project Structure
+
+```
+omr_evaluation_system/
+├── 📁 omr_logic/
+│   ├── __init__.py
+│   └── evaluation.py          # Core OMR processing logic
+├── 📄 app.py                  # Flask backend API
+├── 📄 streamlit_app.py        # Streamlit frontend
+├── 📄 subject_config.json     # Subject configuration
+├── 📄 start.bat              # Windows startup script
+├── 📄 requirements.txt       # Python dependencies
+├── 📄 Procfile              # Deployment configuration
+├── 📄 .gitignore            # Git ignore rules
+└── 📄 README.md             # Project documentation
+```
+
+## 🎮 How to Use
+
+1. **Start the System**: Run both Flask backend and Streamlit frontend
+2. **Upload OMR Sheet**: Select and upload a clear image of the filled OMR sheet
+3. **Enter Details**: 
+   - Student ID
+   - Exam Version (A, B, or C)
+4. **Evaluate**: Click "Evaluate Sheet" to process
+5. **View Results**: Get instant subject-wise scores and total percentage
+
+## 📊 Supported Subjects
+
+The system evaluates 5 subjects (20 questions each):
+- **Python Programming**
+- **Data Analysis** 
+- **MySQL Database**
+- **PowerBI**
+- **Advanced Statistics**
+
+## 🔧 Configuration
+
+### Subject Configuration
+Edit [`subject_config.json`](subject_config.json) to modify subjects and question counts:
+
+```json
+{
+  "subjects": [
+    {"name": "Python", "questions": 20},
+    {"name": "Data Analysis", "questions": 20},
+    {"name": "MySQL", "questions": 20},
+    {"name": "PowerBI", "questions": 20},
+    {"name": "Adv Stats", "questions": 20}
+  ]
+}
+```
+
+## 📸 Screenshots
+
+### Main Interface
+![Main Interface](https://via.placeholder.com/800x400?text=OMR+Evaluation+Interface)
+
+### Results Display
+![Results](https://via.placeholder.com/800x400?text=Subject-wise+Results)
+
+
+## 🤝 Contributing
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Commit changes**: `git commit -m 'Add amazing feature'`
+4. **Push to branch**: `git push origin feature/amazing-feature`
+5. **Open a Pull Request**
 
 
 
+## 👨‍💻 Developer
+
+**Vedant Patil**
+- GitHub: [@Vedantpatil03](https://github.com/Vedantpatil03)
+- LinkedIn: [Connect with me](https://linkedin.com/in/vedant-patil)
+
+
+
+## 🙏 Acknowledgments
+
+- OpenCV community for image processing capabilities
+- Streamlit team for the amazing web framework
+- Flask community for the robust backend framework
+
+---
