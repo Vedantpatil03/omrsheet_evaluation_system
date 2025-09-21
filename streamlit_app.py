@@ -121,3 +121,10 @@ if submit:
                             st.info("Suggestions:")
                             for s in err.get("suggestions", []):
                                 st.write(f"- {s}")
+                                 # Footer
+st.markdown('''
+<div class="footer">
+    <p>🎯 <strong>OMR Evaluation System</strong> • Developed by <strong>Vedant Patil</strong></p>
+
+</div>
+''', unsafe_allow_html=True)

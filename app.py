@@ -273,7 +273,7 @@ def upload_sheet():
             except Exception as cleanup_error:
                 print(f"Failed to cleanup file {filepath}: {cleanup_error}")
 
-if __name__== '_main_':
+if __name__== '__main__':
     # Initialize the database when the app starts
     init_db() 
     app.run(debug=True, port=5000)
