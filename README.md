@@ -129,10 +129,12 @@ Edit [`subject_config.json`](subject_config.json) to modify subjects and questio
 ## 📸 Screenshots
 
 ### Main Interface
-![Main Interface](https://via.placeholder.com/800x400?text=OMR+Evaluation+Interface)
+<img width="621" height="742" alt="Screenshot 2025-09-21 205047" src="https://github.com/user-attachments/assets/ecef35ec-7039-4385-9c90-407beb8eff13" />
+
 
 ### Results Display
-![Results](https://via.placeholder.com/800x400?text=Subject-wise+Results)
+<img width="627" height="763" alt="image" src="https://github.com/user-attachments/assets/c9037a21-8b61-4538-9680-a1ea708870a7" />
+
 
 
 ## 🤝 Contributing
@@ -160,3 +162,4 @@ Edit [`subject_config.json`](subject_config.json) to modify subjects and questio
 - Flask community for the robust backend framework
 
 ---
+
